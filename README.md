@@ -8,7 +8,9 @@ client to make changes in ftrack.
 # Requirements
 * Basic python knowledge
 * Google Cloud account
-* A virtual python env with Poetry installed
+* A virtual python env with Poetry
+* ngrok
+* gcloud
 
 # Setup
 
