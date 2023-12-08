@@ -1,8 +1,9 @@
 import typing
 import logging
 import datetime
+import OS
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Header
 from pydantic import BaseModel
 import ftrack_api
 
@@ -68,8 +69,10 @@ def add_version_to_list(version_id, project_id, list_name, category_id):
 
 
 @app.post("/")
-def index(event: EntityEvent):
-    
+def index(event: EntityEvent, ftrack_secret: typing.Annotated[str | None, Header()] = None):
+    if ftrack_secret is None or ftrack_secret != os.environ.get('FTRACK_SECRET'):
+        return "Invalid secret"
+
     if (
         event.entity.entity_type == 'AssetVersion' and
         event.entity.operation == 'update' and
