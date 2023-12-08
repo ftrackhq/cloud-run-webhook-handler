@@ -16,7 +16,7 @@ client to make changes in ftrack.
 poetry install
 ```
 
-# Run
+# Run locally
 
 ```
 export FTRACK_API_KEY=MY-API-KEY
@@ -32,7 +32,7 @@ uvicorn webhook_handler.main:app --reload
 ngrok http --region eu 127.0.0.1:8000
 ```
 
-# Deploy
+# Deploy to Google Cloud
 
 ```
 poetry export -f requirements.txt --output requirements.txt
