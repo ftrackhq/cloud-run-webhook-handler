@@ -16,7 +16,7 @@ client to make changes in ftrack.
 poetry install
 ```
 
-# Run.
+# Run
 
 ```
 export FTRACK_API_KEY=MY-API-KEY
@@ -26,22 +26,27 @@ export FTRACK_SERVER=https://MY-WORKSPACE.ftrackapp.com
 uvicorn webhook_handler.main:app --reload
 ```
 
-# Local development with ngrok.
+# Local development with ngrok
 
 ```
 ngrok http --region eu 127.0.0.1:8000
 ```
 
-# Deploy.
+# Deploy
 
 ```
 poetry export -f requirements.txt --output requirements.txt
+
+export FTRACK_API_KEY=MY-API-KEY
+export FTRACK_API_USER=MY-USERNAME
+export FTRACK_SERVER=https://MY-WORKSPACE.ftrackapp.com
+
 gcloud run deploy ftrack-webhook-handler --port 8080 --allow-unauthenticated --set-env-vars FTRACK_API_KEY=$FTRACK_API_KEY,FTRACK_API_USER=$FTRACK_API_USER,FTRACK_SERVER=$FTRACK_SERVER --source . --project=my-google-cloud-project
 ```
 
 When deploying the service you have to allow unauthenticated requests.
 
-# Add webhook to ftrack.
+# Add webhook to ftrack
 
 ```
 import ftrack_api
@@ -59,7 +64,7 @@ webhook = session.create('WebhookAction', {
 
 trigger = session.create('Trigger', {
     'automation_id': automation['id'],
-    'filter': "entity.entity_type = AssetVersion",
+    'filter': "entity.entity_type = "AssetVersion" and entity.operation = "update" and entity.new.status_id != entity.old.status_id",
 })
 
 session.commit()
