@@ -59,7 +59,7 @@ automation = session.create('Automation', {
 
 webhook = session.create('WebhookAction', {
         'automation_id': automation['id'],
-        "webhook_url": "https://cce3-155-4-19-67.ngrok.io"
+        "webhook_url": "https://URL-TO-NGROK-OR-CLOUDRUN"
 })
 
 trigger = session.create('Trigger', {
