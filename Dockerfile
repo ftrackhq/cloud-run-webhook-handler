@@ -7,8 +7,7 @@ ENV POETRY_VERSION=1.6.1
 ENV POETRY_HOME="/opt/poetry"
 ENV POETRY_VIRTUALENVS_IN_PROJECT=true
 ENV POETRY_NO_INTERACTION=1
-ENV VENV_PATH="/opt/pysetup/.venv"
-ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+ENV PATH="$POETRY_HOME/bin:$PATH"
 
 # install poetry
 RUN /bin/bash -c "set -o pipefail && curl -sSL https://install.python-poetry.org | python"
