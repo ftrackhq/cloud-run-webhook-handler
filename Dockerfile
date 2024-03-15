@@ -17,7 +17,7 @@ WORKDIR $APP_HOME
 
 # copy project files
 COPY /webhook_handler $APP_HOME/webhook_handler
-COPY poetry.lock pyproject.toml $APP_HOME
+COPY poetry.lock pyproject.toml $APP_HOME/
 
 # install
 RUN poetry install --no-root
