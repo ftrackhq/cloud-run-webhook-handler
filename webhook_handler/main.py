@@ -92,7 +92,7 @@ def index(
             f"AssetVersion changed status from {event.entity.old['status_id']} to {event.entity.new['status_id']}"
         )
 
-        if event.entity.new["status_id"] == Statuses.PENDING_REVIEW:
+        if event.entity.new["status_id"] == Statuses.PENDING_REVIEW.value:
             logging.info(
                 "AssetVersion is now 'Pending review', let's add it to todays review list."
             )
@@ -101,12 +101,12 @@ def index(
                 event.entity.new["id"],
                 event.entity.new["project_id"],
                 f"Dailies {datetime.datetime.utcnow().date().strftime('%Y-%m-%d')}",
-                category_id=ListCategories.LIST_DAILIES,
+                category_id=ListCategories.LIST_DAILIES.value,
             )
 
             return "Version was added to dailies list."
 
-        elif event.entity.new["status_id"] == Statuses.APPROVED:
+        elif event.entity.new["status_id"] == Statuses.APPROVED.value:
             logging.info(
                 "AssetVersion is now 'Approved', let's add it to the delivery list."
             )
@@ -120,7 +120,7 @@ def index(
                 event.entity.new["id"],
                 event.entity.new["project_id"],
                 f"Weekly Delivery {next_friday.strftime('%Y-%m-%d')}",
-                category_id=ListCategories.LIST_DELIVERY,
+                category_id=ListCategories.LIST_DELIVERY.value,
             )
 
             return "Version was added to delivery list."
