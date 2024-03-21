@@ -100,7 +100,7 @@ def index(
             add_version_to_list(
                 event.entity.new["id"],
                 event.entity.new["project_id"],
-                f"Dailies {datetime.datetime.today().strftime('%Y-%m-%d')}",
+                f"Dailies {datetime.datetime.utcnow().date().strftime('%Y-%m-%d')}",
                 category_id=ListCategories.LIST_DAILIES,
             )
 
@@ -111,7 +111,7 @@ def index(
                 "AssetVersion is now 'Approved', let's add it to the delivery list."
             )
 
-            today = datetime.datetime.today()
+            today = datetime.datetime.utcnow().date()
             next_friday = today + datetime.timedelta((4 - today.weekday()) % 7)
             if today.weekday() == 4:
                 next_friday = today + datetime.timedelta(7)

@@ -1,8 +1,11 @@
 FROM python:3.11
 
+# add new user
+RUN useradd -m -s /bin/bash new_user
+
 # set environment vars
 ENV PYTHONUNBUFFERED True
-ENV APP_HOME /root
+ENV APP_HOME /home/new_user
 ENV POETRY_VERSION=1.6.1
 ENV POETRY_HOME="/opt/poetry"
 ENV POETRY_VIRTUALENVS_IN_PROJECT=true
@@ -11,6 +14,9 @@ ENV PATH="$POETRY_HOME/bin:$PATH"
 
 # install poetry
 RUN /bin/bash -c "set -o pipefail && curl -sSL https://install.python-poetry.org | python"
+
+# switch to the new user
+USER new_user
 
 # set working directory
 WORKDIR $APP_HOME
