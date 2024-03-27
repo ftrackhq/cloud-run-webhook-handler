@@ -1,13 +1,32 @@
-FROM python:3.11.3
+FROM python:3.11
+
+# add new user
+RUN useradd -m -s /bin/bash new_user
+
+# set environment vars
 ENV PYTHONUNBUFFERED True
+ENV APP_HOME /home/new_user
+ENV POETRY_VERSION=1.6.1
+ENV POETRY_HOME="/opt/poetry"
+ENV POETRY_VIRTUALENVS_IN_PROJECT=true
+ENV POETRY_NO_INTERACTION=1
+ENV PATH="$POETRY_HOME/bin:$PATH"
 
-RUN pip install --upgrade pip
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r  requirements.txt
+# install poetry
+RUN /bin/bash -c "set -o pipefail && curl -sSL https://install.python-poetry.org | python"
 
-ENV APP_HOME /root
+# switch to the new user
+USER new_user
+
+# set working directory
 WORKDIR $APP_HOME
+
+# copy project files
 COPY /webhook_handler $APP_HOME/webhook_handler
+COPY poetry.lock pyproject.toml $APP_HOME/
+
+# install
+RUN poetry install --no-root
 
 EXPOSE 8080
-CMD ["uvicorn", "webhook_handler.main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["poetry", "run", "uvicorn", "webhook_handler.main:app", "--host", "0.0.0.0", "--port", "8080"]
